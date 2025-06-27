@@ -8,6 +8,8 @@ namespace InGame
 {
     public class SongWordController : MonoBehaviour
     {
+        [SerializeField] TextMeshProUGUI _text;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -26,7 +28,7 @@ namespace InGame
 
         public void SetWord(string word)
         {
-            gameObject.GetComponent<TextMeshProUGUI>().text = word;
+            _text.text = word;
         }
     }
 }

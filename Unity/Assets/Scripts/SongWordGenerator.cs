@@ -12,28 +12,21 @@ namespace InGame
         [SerializeField] SongWordController _wordControllerPrefab;
         [SerializeField] Canvas _canvas;
 
-        Vector3 _currentPos = Vector3.zero;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            this.UpdateAsObservable()
-                .Subscribe(_ =>
-                {
-                    Vector3 pos2 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    _currentPos = pos2;
-                })
-                .AddTo(this);
-
             _transmitter.WordStream()
                 .Subscribe(word =>
                 {
                     if (word != null && word.Length > 0)
                     {
+                        Vector3 _currentPos = new Vector3(Random.Range(-5f, 5f), Random.Range(-3f, 3f), 0f);
+
                         Debug.Log(_currentPos);
                         Debug.Log(word);
+                        
                         SongWordController songWord = Instantiate(_wordControllerPrefab, _currentPos, Quaternion.identity);
-                        songWord.transform.SetParent(_canvas.gameObject.transform, false);
                         // songWord.transform.localScale = Vector3.one; // Reset scale to 1
                         // songWord.transform.localPosition = _currentPos; // Set position to current mouse position
                         songWord.SetWord(word);
