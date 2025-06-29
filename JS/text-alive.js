@@ -12,7 +12,7 @@ const player = new Player({
 
 const animateWord = function (now, unit) {
   if (unit.contains(now)) {
-    gameInstance.SendMessage("TextAliveManager", "OnWord", this.text);
+    gameInstance.SendMessage("JSMessageReceiver", "OnWord", this.text);
   }
 };
 
@@ -56,10 +56,10 @@ player.addListener({
 document.querySelector("#play-button").addEventListener("click", () => {
   if (player.isPlaying) {
     player.requestPause();
-    gameInstance.SendMessage("TextAliveManager", "OnPause");
+    gameInstance.SendMessage("JSMessageReceiver", "OnPause");
   } else {
     player.requestPlay();
-    gameInstance.SendMessage("TextAliveManager", "OnPlay");
+    gameInstance.SendMessage("JSMessageReceiver", "OnPlay");
   }
 });
 

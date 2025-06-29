@@ -6,9 +6,9 @@ using R3;
 using TMPro;
 using UnityEngine;
 
-namespace GameData
+namespace WebGLBridge
 {
-    public class TextAliveManager : MonoBehaviour
+    public class JSMessageReceiver : MonoBehaviour
     {
         ReactiveProperty<string> _wordStream = new ReactiveProperty<string>();
         public ReadOnlyReactiveProperty<string> WordStream() => _wordStream;
@@ -31,30 +31,12 @@ namespace GameData
             //         OnWord("Test Word " + DateTime.Now.ToString("HH:mm:ss"));
             //     }
             // });
-
-            OnBeat("511.29999999999995");
         }
 
         public void OnWord(string word)
         {
             _wordStream.Value = word;
             Debug.Log("Word received: " + word);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="intervalString">ms（文字列）</param>
-        public void OnBeat(string intervalString)
-        {
-            Debug.Log("OnBeat called with: " + intervalString);
-            float intervalValue;
-
-            if (float.TryParse(intervalString, NumberStyles.Any, CultureInfo.InvariantCulture, out intervalValue))
-            {
-                Debug.Log("Interval parsed: " + intervalValue);
-                _intervalStream.Value = intervalValue;
-            }
         }
 
         public void OnPlay()

@@ -1,12 +1,12 @@
-using GameData;
 using UnityEngine;
 using R3;
+using WebGLBridge;
 
 namespace InGame
 {
     public class DataTransmitter : MonoBehaviour
     {
-        [SerializeField] TextAliveManager _textAliveManager;
+        [SerializeField] JSMessageReceiver _jsMessageReceiver;
 
         [SerializeField] SongWordController _wordControllerPrefab;
         [SerializeField] BouncingBallController _ballController;
@@ -26,7 +26,7 @@ namespace InGame
             //     })
             //     .AddTo(this);
 
-            _textAliveManager.BeatStream()
+            _jsMessageReceiver.BeatStream()
                 .Subscribe(interval =>
                 {
                     _ballController.SetBounceInterval(interval / 1000f);
@@ -34,7 +34,7 @@ namespace InGame
                 })
                 .AddTo(this);
 
-            _textAliveManager.IsPlaying
+            _jsMessageReceiver.IsPlaying
                 .Subscribe((isPlaying) =>
                 {
                     _ballController.SwitchBounce(isPlaying);

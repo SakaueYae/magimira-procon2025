@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 750086738}
   - component: {fileID: 750086737}
   m_Layer: 0
-  m_Name: TextAliveManager
+  m_Name: JSMessageReceiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffebb32199087411ba260e19ffccff2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textAliveManager: {fileID: 750086737}
+  _jsMessageReceiver: {fileID: 750086737}
   _wordControllerPrefab: {fileID: 3821320088743603427, guid: b26c66dc7e848482e8331576e962019c, type: 3}
   _ballController: {fileID: 503399016}
 --- !u!4 &2110307801

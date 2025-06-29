@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Runtime.InteropServices;
-using System.Globalization;
+using WebGLBridge;
 
 /// <summary>
 /// ボールを指定した時間間隔でリズミカルにバウンスさせるコントローラー
@@ -8,19 +7,18 @@ using System.Globalization;
 [RequireComponent(typeof(Rigidbody2D))] // Rigidbody2Dが必須であることを示す
 public class BouncingBallController : MonoBehaviour
 {
-    [DllImport("__Internal")]
-    private static extern float GetNextBeat();
-
     [Header("バウンス周期（秒）")]
     [Tooltip("一度着地してから、次に着地するまでの時間")]
-    float bounceInterval = 0f;
+    float _bounceInterval = 0f;
 
-    private Rigidbody2D rb;
+    Rigidbody2D _rb;
+    JSExecutor _jsExecutor;
 
     void Start()
     {
         // Rigidbody 2Dコンポーネントを事前に取得しておく
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+        _jsExecutor = new JSExecutor();
     }
 
     // 他のコライダーに触れた瞬間に呼ばれる
@@ -34,9 +32,9 @@ public class BouncingBallController : MonoBehaviour
     {
         if (isBounce)
         {
-            float nextInterval = GetNextBeat();
+            float nextInterval = _jsExecutor.GetNextBeatFromJS();
             SetBounceInterval(nextInterval / 1000f); // msから秒に変換
-            Debug.Log("Next beat received: " + bounceInterval);
+            Debug.Log("Next beat received: " + _bounceInterval);
         }
         else
         {
@@ -55,18 +53,18 @@ public class BouncingBallController : MonoBehaviour
         // x = v0 * t + 0.5 * g * t^2
         // 0 = v0 * t + 0.5 * g * t^2
         // v0 = -0.5 * g * t
-        float requiredVelocity = -0.5f * Physics2D.gravity.y * bounceInterval;
+        float requiredVelocity = -0.5f * Physics2D.gravity.y * _bounceInterval;
 
         // 計算した速度をボールに適用する。
         // 水平方向の速度は維持し、垂直方向の速度だけを上書きする。
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, requiredVelocity);
+        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, requiredVelocity);
     }
 
     public void SetBounceInterval(float interval)
     {
         // バウンス間隔を設定する
-        bounceInterval = interval;
-        Debug.Log("Bounce interval set to: " + bounceInterval + " seconds");
+        _bounceInterval = interval;
+        Debug.Log("Bounce interval set to: " + _bounceInterval + " seconds");
     }
 }
 
