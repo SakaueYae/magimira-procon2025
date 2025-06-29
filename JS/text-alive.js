@@ -56,15 +56,9 @@ player.addListener({
 document.querySelector("#play-button").addEventListener("click", () => {
   if (player.isPlaying) {
     player.requestPause();
-    // gameInstance.SendMessage("TextAliveManager", "OnBeat", "0");
     gameInstance.SendMessage("TextAliveManager", "OnPause");
   } else {
     player.requestPlay();
-    // const duration = player.getBeats()[0].duration;
-
-    // console.log(player.getBeats());
-
-    // gameInstance.SendMessage("TextAliveManager", "OnBeat", duration.toString());
     gameInstance.SendMessage("TextAliveManager", "OnPlay");
   }
 });
@@ -77,9 +71,16 @@ function getNextBeat() {
   /** 現在のビート情報 */
   const beat = player.findBeat(pos);
 
-  if (!beat) return "0";
+  // posが0の場合beatが取得できないので、playerから最初のビートを取得する
+  if (pos === 0) {
+    console.log(player.getBeats());
+    const firstBeat = player.getBeats()[0];
+    if (!firstBeat) return "0";
+    lastBeat = firstBeat;
+    return firstBeat.duration;
+  }
 
-  console.log(beat);
+  if (!beat) return "0";
 
   // 前回のビートと現在のビートが同じ場合
   if (lastBeat && lastBeat.index === beat.index) {

@@ -24,6 +24,7 @@ public class BouncingBallController : MonoBehaviour
     }
 
     // 他のコライダーに触れた瞬間に呼ばれる
+    // TODO: 触れたコライダーの判定
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SwitchBounce(true);
