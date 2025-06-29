@@ -48,6 +48,7 @@ namespace InGame
 
         void Jump()
         {
+            Debug.Log("Jump triggered");
             _rb2.AddForce(new Vector2(0f, _jumpForce), ForceMode2D.Impulse);
         }
     }

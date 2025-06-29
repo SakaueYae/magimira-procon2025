@@ -23,14 +23,16 @@ namespace WebGLBridge
         void Start()
         {
             // Simulate receiving words every 2 seconds
-            // UniTask.Void(async () =>
-            // {
-            //     while (true)
-            //     {
-            //         await UniTask.Delay(TimeSpan.FromSeconds(2));
-            //         OnWord("Test Word " + DateTime.Now.ToString("HH:mm:ss"));
-            //     }
-            // });
+            UniTask.Void(async () =>
+            {
+                while (true)
+                {
+                    await UniTask.Delay(TimeSpan.FromSeconds(2));
+                    OnWord("Test Word " + DateTime.Now.ToString("HH:mm:ss"));
+                    await UniTask.Delay(TimeSpan.FromSeconds(2));
+                    OnWord("A");
+                }
+            });
         }
 
         public void OnWord(string word)

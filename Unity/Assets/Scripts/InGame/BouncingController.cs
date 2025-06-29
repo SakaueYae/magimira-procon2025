@@ -5,19 +5,19 @@ using WebGLBridge;
 /// ボールを指定した時間間隔でリズミカルにバウンスさせるコントローラー
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))] // Rigidbody2Dが必須であることを示す
-public class BouncingBallController : MonoBehaviour
+public class BouncingController : MonoBehaviour
 {
     [Header("バウンス周期（秒）")]
     [Tooltip("一度着地してから、次に着地するまでの時間")]
     float _bounceInterval = 0f;
 
-    Rigidbody2D _rb;
+    Rigidbody2D _rb2;
     JSExecutor _jsExecutor;
 
     void Start()
     {
         // Rigidbody 2Dコンポーネントを事前に取得しておく
-        _rb = GetComponent<Rigidbody2D>();
+        _rb2 = GetComponent<Rigidbody2D>();
         _jsExecutor = new JSExecutor();
     }
 
@@ -53,11 +53,11 @@ public class BouncingBallController : MonoBehaviour
         // x = v0 * t + 0.5 * g * t^2
         // 0 = v0 * t + 0.5 * g * t^2
         // v0 = -0.5 * g * t
-        float requiredVelocity = -0.5f * Physics2D.gravity.y * _bounceInterval;
+        float requiredVelocity = -0.5f * Physics2D.gravity.y * _rb2.gravityScale * _bounceInterval;
 
         // 計算した速度をボールに適用する。
         // 水平方向の速度は維持し、垂直方向の速度だけを上書きする。
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, requiredVelocity);
+        _rb2.linearVelocity = new Vector2(_rb2.linearVelocity.x, requiredVelocity);
     }
 
     public void SetBounceInterval(float interval)
