@@ -10,10 +10,9 @@ const player = new Player({
   // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
 });
 
-// 単語が発声されていたら #text に表示する
 const animateWord = function (now, unit) {
   if (unit.contains(now)) {
-    gameInstance.SendMessage("JSTransmitter", "OnWord", this.text);
+    gameInstance.SendMessage("TextAliveManager", "OnWord", this.text);
   }
 };
 
@@ -46,6 +45,7 @@ player.addListener({
   onVideoReady: (v) => {
     // 定期的に呼ばれる各単語の "animate" 関数をセットする
     let w = player.video.firstWord;
+
     while (w) {
       w.animate = animateWord;
       w = w.next;
@@ -56,7 +56,43 @@ player.addListener({
 document.querySelector("#play-button").addEventListener("click", () => {
   if (player.isPlaying) {
     player.requestPause();
+    // gameInstance.SendMessage("TextAliveManager", "OnBeat", "0");
+    gameInstance.SendMessage("TextAliveManager", "OnPause");
   } else {
     player.requestPlay();
+    // const duration = player.getBeats()[0].duration;
+
+    // console.log(player.getBeats());
+
+    // gameInstance.SendMessage("TextAliveManager", "OnBeat", duration.toString());
+    gameInstance.SendMessage("TextAliveManager", "OnPlay");
   }
 });
+
+function getNextBeat() {
+  /** 前回のビート情報 */
+  let lastBeat = null;
+  /** 今の経過時間 */
+  const pos = player.timer.position;
+  /** 現在のビート情報 */
+  const beat = player.findBeat(pos);
+
+  if (!beat) return "0";
+
+  console.log(beat);
+
+  // 前回のビートと現在のビートが同じ場合
+  if (lastBeat && lastBeat.index === beat.index) {
+    const end =
+      lastBeat.endTime - pos < 0.02 ? lastBeat.next.endTime : lastBeat.endTime;
+    const duration = end - pos;
+    return duration;
+  }
+  // 前回のビートと現在のビートが異なる場合
+  else {
+    lastBeat = beat;
+    const end = beat.endTime;
+    const duration = end - pos;
+    return duration;
+  }
+}
