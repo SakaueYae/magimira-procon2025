@@ -23,21 +23,23 @@ namespace WebGLBridge
         void Start()
         {
             // Simulate receiving words every 2 seconds
-            UniTask.Void(async () =>
-            {
-                while (true)
-                {
-                    await UniTask.Delay(TimeSpan.FromSeconds(2));
-                    OnWord("Test Word " + DateTime.Now.ToString("HH:mm:ss"));
-                    await UniTask.Delay(TimeSpan.FromSeconds(2));
-                    OnWord("A");
-                }
-            });
+            // UniTask.Void(async () =>
+            // {
+            //     while (true)
+            //     {
+            //         await UniTask.Delay(TimeSpan.FromSeconds(2));
+            //         OnWord("Test Word " + DateTime.Now.ToString("HH:mm:ss"));
+            //         await UniTask.Delay(TimeSpan.FromSeconds(2));
+            //         OnWord("A");
+            //     }
+            // });
         }
 
         public void OnWord(string word)
         {
-            _wordStream.Value = word;
+            // 同じ値が二連続で代入されるのを防止
+            if (_wordStream.Value != word)
+                _wordStream.Value = word;
             Debug.Log("Word received: " + word);
         }
 
