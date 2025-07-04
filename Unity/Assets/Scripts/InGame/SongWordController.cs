@@ -33,11 +33,6 @@ namespace InGame
             Destroy(gameObject);
         }
 
-        public void SetWord(string word)
-        {
-            _text.text = word;
-        }
-
         public void InitializeSongWord(string word, int dir)
         {
             _text.text = word;
