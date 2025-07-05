@@ -9,7 +9,7 @@ namespace InGame
         [SerializeField] JSMessageReceiver _jsMessageReceiver;
 
         [SerializeField] SongWordGenerator _songWordGenerator;
-        [SerializeField] BouncingController _ballController;
+        [SerializeField] GameObject _ballController;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -21,26 +21,12 @@ namespace InGame
                 })
                 .AddTo(this);
 
-            _jsMessageReceiver.BeatStream()
-                .Subscribe(interval =>
-                {
-                    _ballController.SetBounceInterval(interval / 1000f);
-                    Debug.Log("Bounce interval set to: " + interval);
-                })
-                .AddTo(this);
-
             _jsMessageReceiver.IsPlaying
                 .Subscribe((isPlaying) =>
                 {
-                    _ballController.SwitchBounce(isPlaying);
+                    _ballController.GetComponent<IBounce>().HandleBounce(isPlaying);
                 })
                 .AddTo(this);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }

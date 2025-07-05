@@ -70,6 +70,7 @@ function getNextBeat() {
   const pos = player.timer.position;
   /** 現在のビート情報 */
   const beat = player.findBeat(pos);
+  const RAG_MS = 100;
 
   // posが0の場合beatが取得できないので、playerから最初のビートを取得する
   if (pos === 0) {
@@ -85,7 +86,9 @@ function getNextBeat() {
   // 前回のビートと現在のビートが同じ場合
   if (lastBeat && lastBeat.index === beat.index) {
     const end =
-      lastBeat.endTime - pos < 0.02 ? lastBeat.next.endTime : lastBeat.endTime;
+      lastBeat.endTime - pos < RAG_MS
+        ? lastBeat.next.endTime
+        : lastBeat.endTime;
     const duration = end - pos;
     return duration;
   }
@@ -96,4 +99,18 @@ function getNextBeat() {
     const duration = end - pos;
     return duration;
   }
+}
+
+function isTimingCorrect() {
+  const pos = player.timer.position;
+  const beat = player.findBeat(pos);
+
+  if (!beat) return false;
+
+  const RAG_MS = 100;
+
+  return (
+    Math.abs(beat.endTime - pos) < RAG_MS ||
+    Math.abs(beat.startTime - pos) < RAG_MS
+  );
 }

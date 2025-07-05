@@ -1,11 +1,27 @@
 using UnityEngine;
 using WebGLBridge;
 
+
+public interface IBounce
+{
+    /// <summary>
+    /// バウンスの状態を切り替える
+    /// </summary>
+    /// <param name="isBounce">バウンスするかどうか</param>
+    void HandleBounce(bool isBounce);
+
+    /// <summary>
+    /// バウンス間隔を設定する
+    /// </summary>
+    /// <param name="interval">バウンス間隔（秒）</param>
+    void SetBounceInterval(float interval);
+}
+
 /// <summary>
 /// ボールを指定した時間間隔でリズミカルにバウンスさせるコントローラー
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))] // Rigidbody2Dが必須であることを示す
-public class BouncingController : MonoBehaviour
+public class BouncingController : MonoBehaviour, IBounce
 {
     [Header("バウンス周期（秒）")]
     [Tooltip("一度着地してから、次に着地するまでの時間")]
@@ -25,10 +41,10 @@ public class BouncingController : MonoBehaviour
     // TODO: 触れたコライダーの判定
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        SwitchBounce(true);
+        HandleBounce(true);
     }
 
-    public void SwitchBounce(bool isBounce)
+    public void HandleBounce(bool isBounce)
     {
         if (isBounce)
         {
@@ -64,7 +80,7 @@ public class BouncingController : MonoBehaviour
     {
         // バウンス間隔を設定する
         _bounceInterval = interval;
-        Debug.Log("Bounce interval set to: " + _bounceInterval + " seconds");
+        // Debug.Log("Bounce interval set to: " + _bounceInterval + " seconds");
     }
 }
 

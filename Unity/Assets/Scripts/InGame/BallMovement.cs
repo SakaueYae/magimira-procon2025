@@ -6,11 +6,16 @@ using UnityEngine;
 
 namespace InGame
 {
-    public class BallMovement : MonoBehaviour
+    public interface IJump
+    {
+        void Jump();
+    }
+
+    public class BallMovement : MonoBehaviour, IJump
     {
         [SerializeField] float _moveForce = 0.1f;
         [SerializeField] float _maxSpeed = 2f;
-        [SerializeField] float _jumpForce = 1f;
+        [SerializeField] float _jumpSpeed = 3f;
 
         Rigidbody2D _rb2;
 
@@ -21,10 +26,10 @@ namespace InGame
             .Subscribe(_ => Move())
             .AddTo(this);
 
-            this.UpdateAsObservable()
-            .Where(_ => Input.GetMouseButtonDown(0))
-            .Subscribe(_ => Jump())
-            .AddTo(this);
+            // this.UpdateAsObservable()
+            // .Where(_ => Input.GetMouseButtonDown(0))
+            // .Subscribe(_ => Jump())
+            // .AddTo(this);
         }
 
         void Move()
@@ -46,10 +51,9 @@ namespace InGame
             }
         }
 
-        void Jump()
+        public void Jump()
         {
-            Debug.Log("Jump triggered");
-            _rb2.AddForce(new Vector2(0f, _jumpForce), ForceMode2D.Impulse);
+            _rb2.linearVelocity = new Vector2(_rb2.linearVelocity.x, _jumpSpeed);
         }
     }
 }

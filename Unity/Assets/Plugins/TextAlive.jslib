@@ -1,7 +1,11 @@
 mergeInto(LibraryManager.library, {
   GetNextBeat: function () {
     const nextInterval = getNextBeat();
-    console.log(nextInterval);
     return nextInterval;
+  },
+
+  GetIsTimingCorrect: function () {
+    console.log("JSLib", isTimingCorrect());
+    return isTimingCorrect();
   },
 });

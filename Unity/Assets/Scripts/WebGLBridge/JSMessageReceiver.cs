@@ -13,9 +13,6 @@ namespace WebGLBridge
         ReactiveProperty<string> _wordStream = new ReactiveProperty<string>();
         public ReadOnlyReactiveProperty<string> WordStream() => _wordStream;
 
-        ReactiveProperty<float> _intervalStream = new ReactiveProperty<float>();
-        public ReadOnlyReactiveProperty<float> BeatStream() => _intervalStream;
-
         ReactiveProperty<bool> _isPlaying = new ReactiveProperty<bool>();
         public ReadOnlyReactiveProperty<bool> IsPlaying => _isPlaying;
 
@@ -42,7 +39,6 @@ namespace WebGLBridge
             // 同じ値が二連続で代入されるのを防止
             if (_wordStream.Value != word)
                 _wordStream.Value = word;
-            Debug.Log("Word received: " + word);
         }
 
         public void OnPlay()

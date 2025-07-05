@@ -7,6 +7,8 @@ namespace WebGLBridge
     {
         [DllImport("__Internal")]
         private static extern float GetNextBeat();
+        [DllImport("__Internal")]
+        private static extern bool GetIsTimingCorrect();
 
         /// <summary>
         /// Calls the JavaScript function to get the next beat.
@@ -22,6 +24,19 @@ namespace WebGLBridge
             {
                 // If not running in WebGL, return a default value or handle accordinglyß
                 return 511.29999999999995f; // Fallback value for non-WebGL platforms
+            }
+        }
+
+        public bool IsTimingCorrectFromJS()
+        {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                return GetIsTimingCorrect();
+            }
+            else
+            {
+                // If not running in WebGL, return a default value or handle accordingly
+                return true; // Fallback value for non-WebGL platforms
             }
         }
     }

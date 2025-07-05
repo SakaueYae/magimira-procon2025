@@ -56,7 +56,6 @@ namespace InGame
             {
                 // プレイヤーの速度が最大速度未満の場合、移動力を適用
                 _cpuRb.AddForce(new Vector2(_moveForce * moveDirection, 0f), ForceMode2D.Force);
-                Debug.Log("Move:" + transform.position);
             }
         }
     }

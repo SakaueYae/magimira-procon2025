@@ -16,16 +16,13 @@ namespace InGame
         RectTransform _rectTransform;
         BoxCollider2D _collider2d;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
             _rectTransform = gameObject.GetComponent<RectTransform>();
             _collider2d = gameObject.GetComponent<BoxCollider2D>();
-            Debug.Log(_rectTransform);
             DelayAsync(destroyCancellationToken).Forget();
         }
 
-        // 非同期メソッド
         private async UniTask DelayAsync(CancellationToken token)
         {
             await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: token);
