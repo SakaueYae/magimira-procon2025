@@ -3,6 +3,7 @@ using R3.Triggers;
 using TMPro;
 using UnityEngine;
 using R3;
+using Unity.Collections;
 
 namespace InGame
 {
@@ -13,6 +14,7 @@ namespace InGame
 
         RectTransform _rectTransform;
         BoxCollider2D _collider2d;
+        float _textWidth;
 
         void Awake()
         {
@@ -26,15 +28,14 @@ namespace InGame
             .Subscribe(_ =>
             {
                 // テキストを左方向に移動
-                Vector3 position = _rectTransform.position;
-                position.x -= _moveSpeed * Time.deltaTime; // 毎フレーム移動
-                _rectTransform.position = position;
+                gameObject.transform.Translate(new Vector3(-_moveSpeed * Time.deltaTime, 0, 0));
+            })
+            .AddTo(this);
 
-                // 画面外判定（左端より左に出た場合）
-                if (position.x < -_rectTransform.sizeDelta.x)
-                {
-                    Destroy(gameObject);
-                }
+            this.OnBecameInvisibleAsObservable()
+            .Subscribe(_ =>
+            {
+                Destroy(gameObject);
             })
             .AddTo(this);
         }
@@ -58,6 +59,8 @@ namespace InGame
             {
                 _collider2d.size = textSize;
             }
+
+            _textWidth = textSize.x;
         }
     }
 }

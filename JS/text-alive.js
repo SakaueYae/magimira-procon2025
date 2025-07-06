@@ -78,6 +78,10 @@ function getNextBeat() {
     const firstBeat = player.getBeats()[0];
     if (!firstBeat) return "0";
     lastBeat = firstBeat;
+
+    console.log(player.getChords());
+    console.log(player.getChoruses());
+
     return firstBeat.duration;
   }
 
