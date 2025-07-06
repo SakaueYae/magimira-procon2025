@@ -3,11 +3,15 @@ using R3.Triggers;
 using TMPro;
 using UnityEngine;
 using R3;
-using Unity.Collections;
 
 namespace InGame
 {
-    public class SongWordController : MonoBehaviour
+    public interface ISongWord
+    {
+        void InitializeSongWord(string word, int dir);
+        void GetWord();
+    }
+    public class SongWordController : MonoBehaviour, ISongWord
     {
         [SerializeField] TextMeshProUGUI _text;
         [SerializeField] float _moveSpeed = 1f; // テキストの移動速度
@@ -61,6 +65,12 @@ namespace InGame
             }
 
             _textWidth = textSize.x;
+        }
+
+        public void GetWord()
+        {
+            // TODO: 取得時のアニメーション、オブジェクトの削除
+            Destroy(gameObject);
         }
     }
 }

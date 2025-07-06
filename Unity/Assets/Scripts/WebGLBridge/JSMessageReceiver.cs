@@ -13,8 +13,14 @@ namespace WebGLBridge
         ReactiveProperty<string> _wordStream = new ReactiveProperty<string>();
         public ReadOnlyReactiveProperty<string> WordStream() => _wordStream;
 
+        ReactiveProperty<string> _phraseStream = new ReactiveProperty<string>();
+        public ReadOnlyReactiveProperty<string> PhraseStream() => _phraseStream;
+
         ReactiveProperty<bool> _isPlaying = new ReactiveProperty<bool>();
         public ReadOnlyReactiveProperty<bool> IsPlaying => _isPlaying;
+
+        ReactiveProperty<int> _wordsCount = new ReactiveProperty<int>();
+        public ReadOnlyReactiveProperty<int> WordsCount => _wordsCount;
 
         // Test
         void Start()
@@ -31,6 +37,15 @@ namespace WebGLBridge
                     OnWord("A");
                 }
             });
+
+            UniTask.Void(async () =>
+            {
+                while (true)
+                {
+                    await UniTask.Delay(TimeSpan.FromSeconds(3));
+                    OnPhrase("Test Phrase " + DateTime.Now.ToString("HH:mm:ss"));
+                }
+            });
 #endif
         }
 
@@ -41,6 +56,13 @@ namespace WebGLBridge
                 _wordStream.Value = word;
         }
 
+        public void OnPhrase(string phrase)
+        {
+            // 同じ値が二連続で代入されるのを防止
+            if (_phraseStream.Value != phrase)
+                _phraseStream.Value = phrase;
+        }
+
         public void OnPlay()
         {
             _isPlaying.Value = true;
@@ -49,6 +71,11 @@ namespace WebGLBridge
         public void OnPause()
         {
             _isPlaying.Value = false;
+        }
+
+        public void GetWordsCount(string word)
+        {
+            _wordsCount.Value = int.TryParse(word, NumberStyles.Integer, CultureInfo.InvariantCulture, out var count) ? count : 0;
         }
     }
 }

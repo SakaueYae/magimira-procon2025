@@ -16,6 +16,12 @@ const animateWord = function (now, unit) {
   }
 };
 
+const animatePhrase = function (now, unit) {
+  if (unit.contains(now)) {
+    gameInstance.SendMessage("JSMessageReceiver", "OnPhrase", this.text);
+  }
+};
+
 player.addListener({
   onAppReady: (app) => {
     //  if (app.managed) {
@@ -45,10 +51,16 @@ player.addListener({
   onVideoReady: (v) => {
     // 定期的に呼ばれる各単語の "animate" 関数をセットする
     let w = player.video.firstWord;
+    let p = player.video.firstPhrase;
 
     while (w) {
       w.animate = animateWord;
       w = w.next;
+    }
+
+    while (p) {
+      p.animate = animatePhrase; // フレーズにも同様にアニメーションを設定
+      p = p.next;
     }
   },
 });
@@ -79,7 +91,6 @@ function getNextBeat() {
     if (!firstBeat) return "0";
     lastBeat = firstBeat;
 
-    console.log(player.getChords());
     console.log(player.getChoruses());
 
     return firstBeat.duration;
