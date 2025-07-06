@@ -15,20 +15,13 @@ namespace InGame
 
         public void GenerateSongWord(string word)
         {
-            // 進行方向と逆の方向に生成
-            int dir = _rb2.linearVelocityX > 0 ? -1 : 1;
-            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-            float halfWidth = rectTransform.rect.width * rectTransform.localScale.x / 2f;
 
-            // ボールのちょうど後ろに座標を指定
-            Vector3 pos = new Vector3(
-                gameObject.transform.position.x + dir * halfWidth,
-                gameObject.transform.position.y,
-                0f
-            );
+            Vector3 currentPos = gameObject.transform.position;
+            Vector3 viewportPos = Camera.main.WorldToViewportPoint(currentPos);
+            Vector3 generatedPos = Camera.main.ViewportToWorldPoint(new Vector3(1.0f, Random.value, viewportPos.z));
 
-            SongWordController songWord = Instantiate(_songWordControllerPrefab, pos, Quaternion.identity);
-            songWord.InitializeSongWord(word, dir);
+            SongWordController songWord = Instantiate(_songWordControllerPrefab, generatedPos, Quaternion.identity);
+            songWord.InitializeSongWord(word, 1);
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using WebGLBridge;
 using R3;
 
-namespace InGame
+namespace InGame.Player
 {
     public class PlayerBounce : MonoBehaviour, IBounce
     {
@@ -14,6 +14,7 @@ namespace InGame
         Rigidbody2D _rb2;
         JSExecutor _jsExecutor;
         IJump _jumpController;
+        IJumpAnim _jumpAnim;
         float _prevBouceTimeSec;
         float _nextBounceTimeSec;
 
@@ -22,6 +23,7 @@ namespace InGame
             _rb2 = GetComponent<Rigidbody2D>();
             _jsExecutor = new JSExecutor();
             _jumpController = gameObject.GetComponent<IJump>();
+            _jumpAnim = gameObject.GetComponent<IJumpAnim>();
 
             this.UpdateAsObservable()
                 .Where(_ => Input.touchCount > 0 || Input.GetMouseButtonDown(0))
@@ -37,6 +39,7 @@ namespace InGame
                 .Where(collision => IsLandingOnTop(collision))
                 .Subscribe(collision =>
                 {
+                    _jumpAnim.LandAnim();
                     // 着地した瞬間の時間を記録
                     _prevBouceTimeSec = Time.time;
                     HandleBounce(true);
@@ -76,6 +79,8 @@ namespace InGame
 
             // 次のバウンス予定時間を設定（_prevBouceTimeSecは既にOnCollisionEnter2Dで設定済み）
             _nextBounceTimeSec = _prevBouceTimeSec + _bounceIntervalSec;
+
+            _jumpAnim.JumpUpAnim();
         }
 
         public void SetBounceInterval(float interval)

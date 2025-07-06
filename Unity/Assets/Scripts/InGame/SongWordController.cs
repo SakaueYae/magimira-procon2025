@@ -1,18 +1,16 @@
-using System;
-using System.Threading;
-using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
+using R3.Triggers;
 using TMPro;
 using UnityEngine;
+using R3;
 
 namespace InGame
 {
     public class SongWordController : MonoBehaviour
     {
         [SerializeField] TextMeshProUGUI _text;
-        // テキストの周囲に持たせる余白（パディング）
-        [SerializeField]
-        private Vector2 padding = new Vector2(30f, 20f);
+        [SerializeField] float _moveSpeed = 1f; // テキストの移動速度
+
         RectTransform _rectTransform;
         BoxCollider2D _collider2d;
 
@@ -20,14 +18,25 @@ namespace InGame
         {
             _rectTransform = gameObject.GetComponent<RectTransform>();
             _collider2d = gameObject.GetComponent<BoxCollider2D>();
-            DelayAsync(destroyCancellationToken).Forget();
         }
 
-        private async UniTask DelayAsync(CancellationToken token)
+        void Start()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: token);
+            this.UpdateAsObservable()
+            .Subscribe(_ =>
+            {
+                // テキストを左方向に移動
+                Vector3 position = _rectTransform.position;
+                position.x -= _moveSpeed * Time.deltaTime; // 毎フレーム移動
+                _rectTransform.position = position;
 
-            Destroy(gameObject);
+                // 画面外判定（左端より左に出た場合）
+                if (position.x < -_rectTransform.sizeDelta.x)
+                {
+                    Destroy(gameObject);
+                }
+            })
+            .AddTo(this);
         }
 
         public void InitializeSongWord(string word, int dir)
@@ -43,13 +52,6 @@ namespace InGame
 
             // 親オブジェクトのサイズを更新
             _rectTransform.sizeDelta = textSize;
-
-            gameObject.transform.position = new Vector3(
-                // ボールにあたってしまうタイミングがあったため、0.2fのオフセットを追加
-                gameObject.transform.position.x + dir * (textSize.x / 2f + 0.2f),
-                gameObject.transform.position.y,
-                gameObject.transform.position.z
-            );
 
             // Colliderのサイズを更新
             if (_collider2d != null)

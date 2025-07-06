@@ -1,17 +1,16 @@
-using System;
 using Cysharp.Threading.Tasks;
 using R3;
 using R3.Triggers;
 using UnityEngine;
 
-namespace InGame
+namespace InGame.Player
 {
     public interface IJump
     {
         void Jump();
     }
 
-    public class BallMovement : MonoBehaviour, IJump
+    public class PlayerMovement : MonoBehaviour, IJump
     {
         [SerializeField] float _moveForce = 0.1f;
         [SerializeField] float _maxSpeed = 2f;
@@ -25,11 +24,6 @@ namespace InGame
             this.UpdateAsObservable()
             .Subscribe(_ => Move())
             .AddTo(this);
-
-            // this.UpdateAsObservable()
-            // .Where(_ => Input.GetMouseButtonDown(0))
-            // .Subscribe(_ => Jump())
-            // .AddTo(this);
         }
 
         void Move()
