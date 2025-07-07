@@ -23,7 +23,7 @@ namespace InGame.UI
 
         void UpdateScoreText(int score)
         {
-            _scoreText.text = $"Score: {score}/{ScoreData.instance.MaxScore}";
+            _scoreText.text = $": {score}/{ScoreData.instance.MaxScore}";
         }
     }
 }
