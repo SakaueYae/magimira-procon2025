@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using R3;
 using R3.Triggers;
+using Stages;
 using UnityEngine;
 
 namespace InGame.Player

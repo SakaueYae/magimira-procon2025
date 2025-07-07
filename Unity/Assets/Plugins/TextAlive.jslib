@@ -12,7 +12,7 @@ mergeInto(LibraryManager.library, {
     player.requestPause();
   },
 
-  ResumeMusic: function () {
+  PlayMusic: function () {
     player.requestPlay();
   },
 });

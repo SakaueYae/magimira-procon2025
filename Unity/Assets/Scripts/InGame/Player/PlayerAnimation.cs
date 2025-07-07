@@ -52,7 +52,6 @@ namespace InGame.Player
         {
             // _animator.SetTrigger("land");
             _animator.SetBool("isGrounded", true);
-            Debug.Log("LandAnim called");
         }
     }
 }

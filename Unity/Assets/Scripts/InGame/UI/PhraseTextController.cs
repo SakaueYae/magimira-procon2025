@@ -7,7 +7,8 @@ namespace InGame.UI
     {
         TextMeshProUGUI _phraseText;
 
-        void Start()
+        // UpdatePhraseTextが初期化前に呼ばれてしまうため、Awakeで対応
+        void Awake()
         {
             _phraseText = GetComponent<TextMeshProUGUI>();
         }

@@ -12,7 +12,7 @@ namespace WebGLBridge
         [DllImport("__Internal")]
         private static extern void PauseMusic();
         [DllImport("__Internal")]
-        private static extern void ResumeMusic();
+        private static extern void PlayMusic();
 
         /// <summary>
         /// Calls the JavaScript function to get the next beat.
@@ -52,11 +52,11 @@ namespace WebGLBridge
             }
         }
 
-        public static void ResumeMusicFromJS()
+        public static void PlayMusicFromJS()
         {
             if (Application.platform == RuntimePlatform.WebGLPlayer)
             {
-                ResumeMusic();
+                PlayMusic();
             }
         }
     }

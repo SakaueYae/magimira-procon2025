@@ -1,7 +1,6 @@
 using R3;
 using UnityEngine;
 using UnityEngine.UI;
-using WebGLBridge;
 
 namespace UI
 {
@@ -24,17 +23,6 @@ namespace UI
                 .Subscribe(_ =>
                 {
                     _uiStateSubject.OnNext(_uiState);
-
-                    if (Time.timeScale == 0f && _uiState == UIState.Playing)
-                    {
-                        JSExecutor.ResumeMusicFromJS(); // Resume music when playing
-                        Time.timeScale = 1f; // Resume the game
-                    }
-                    else if (_uiState == UIState.Paused)
-                    {
-                        JSExecutor.PauseMusicFromJS(); // Pause music when paused
-                        Time.timeScale = 0f; // Pause the game
-                    }
                 })
                 .AddTo(this);
         }

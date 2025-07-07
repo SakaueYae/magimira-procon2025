@@ -4,7 +4,7 @@ const { Player } = TextAliveApp;
 const player = new Player({
   app: { token: "JF9mqDMSLPVFLM1V" },
   mediaElement: document.querySelector("#media"),
-  mediaBannerPosition: "bottom right",
+  mediaBannerPosition: "none",
 
   // オプション一覧
   // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
@@ -73,20 +73,26 @@ player.addListener({
   },
 
   onTimeUpdate: (pos) => {
-    if (player.findChorus(pos)) {
-      console.log("コーラス", player.findChorus(pos));
-    } else {
-      const currentSegment = segments.find(({ segments }) => {
-        return segments.some((s) => {
-          return s.startTime <= pos && pos <= s.endTime;
-        });
+    // if (player.findChorus(pos)) {
+    //   console.log("コーラス", player.findChorus(pos));
+    // } else {
+    const currentSegment = segments.find(({ segments }) => {
+      return segments.some((s) => {
+        return s.startTime <= pos && pos <= s.endTime;
       });
+    });
 
-      if (currentSegment !== prevSegment) {
-        console.log("セグメントが変わりました", prevSegment, currentSegment);
-        prevSegment = currentSegment;
-      }
+    // 初回のセグメント
+    if (!prevSegment) {
+      currentSegment && (prevSegment = currentSegment);
     }
+
+    if (currentSegment && currentSegment !== prevSegment) {
+      console.log("セグメントが変わりました", prevSegment, currentSegment);
+      prevSegment = currentSegment;
+      gameInstance.SendMessage("JSMessageReceiver", "OnSegmentChange");
+    }
+    // }
   },
 });
 
