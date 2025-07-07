@@ -22,6 +22,9 @@ const animatePhrase = function (now, unit) {
   }
 };
 
+let segments = [];
+let prevSegment = null;
+
 player.addListener({
   onAppReady: (app) => {
     //  if (app.managed) {
@@ -59,8 +62,30 @@ player.addListener({
     }
 
     while (p) {
-      p.animate = animatePhrase; // フレーズにも同様にアニメーションを設定
+      p.animate = animatePhrase;
       p = p.next;
+    }
+
+    segments = player.data.songMap.segments.sort((a, b) => {
+      return a.segments[0].startTime - b.segments[0].startTime;
+    });
+    console.log("セグメント情報", segments);
+  },
+
+  onTimeUpdate: (pos) => {
+    if (player.findChorus(pos)) {
+      console.log("コーラス", player.findChorus(pos));
+    } else {
+      const currentSegment = segments.find(({ segments }) => {
+        return segments.some((s) => {
+          return s.startTime <= pos && pos <= s.endTime;
+        });
+      });
+
+      if (currentSegment !== prevSegment) {
+        console.log("セグメントが変わりました", prevSegment, currentSegment);
+        prevSegment = currentSegment;
+      }
     }
   },
 });
@@ -86,7 +111,6 @@ function getNextBeat() {
 
   // posが0の場合beatが取得できないので、playerから最初のビートを取得する
   if (pos === 0) {
-    console.log(player.getBeats());
     const firstBeat = player.getBeats()[0];
     if (!firstBeat) return "0";
     lastBeat = firstBeat;

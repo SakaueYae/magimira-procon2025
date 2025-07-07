@@ -3,18 +3,22 @@ using UnityEngine;
 
 namespace WebGLBridge
 {
-    public class JSExecutor
+    public static class JSExecutor
     {
         [DllImport("__Internal")]
         private static extern float GetNextBeat();
         [DllImport("__Internal")]
         private static extern bool GetIsTimingCorrect();
+        [DllImport("__Internal")]
+        private static extern void PauseMusic();
+        [DllImport("__Internal")]
+        private static extern void ResumeMusic();
 
         /// <summary>
         /// Calls the JavaScript function to get the next beat.
         /// </summary>
         /// <returns></returns>
-        public float GetNextBeatFromJS()
+        public static float GetNextBeatFromJS()
         {
             if (Application.platform == RuntimePlatform.WebGLPlayer)
             {
@@ -27,7 +31,7 @@ namespace WebGLBridge
             }
         }
 
-        public bool IsTimingCorrectFromJS()
+        public static bool IsTimingCorrectFromJS()
         {
             if (Application.platform == RuntimePlatform.WebGLPlayer)
             {
@@ -37,6 +41,22 @@ namespace WebGLBridge
             {
                 // If not running in WebGL, return a default value or handle accordingly
                 return true; // Fallback value for non-WebGL platforms
+            }
+        }
+
+        public static void PauseMusicFromJS()
+        {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                PauseMusic();
+            }
+        }
+
+        public static void ResumeMusicFromJS()
+        {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                ResumeMusic();
             }
         }
     }

@@ -28,13 +28,11 @@ public class BouncingController : MonoBehaviour, IBounce
     float _bounceInterval = 0f;
 
     Rigidbody2D _rb2;
-    JSExecutor _jsExecutor;
 
     void Start()
     {
         // Rigidbody 2Dコンポーネントを事前に取得しておく
         _rb2 = GetComponent<Rigidbody2D>();
-        _jsExecutor = new JSExecutor();
     }
 
     // 他のコライダーに触れた瞬間に呼ばれる
@@ -48,7 +46,7 @@ public class BouncingController : MonoBehaviour, IBounce
     {
         if (isBounce)
         {
-            float nextInterval = _jsExecutor.GetNextBeatFromJS();
+            float nextInterval = JSExecutor.GetNextBeatFromJS();
             SetBounceInterval(nextInterval / 1000f); // msから秒に変換
             Debug.Log("Next beat received: " + _bounceInterval);
         }

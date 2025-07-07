@@ -5,7 +5,14 @@ mergeInto(LibraryManager.library, {
   },
 
   GetIsTimingCorrect: function () {
-    console.log("JSLib", isTimingCorrect());
     return isTimingCorrect();
+  },
+
+  PauseMusic: function () {
+    player.requestPause();
+  },
+
+  ResumeMusic: function () {
+    player.requestPlay();
   },
 });

@@ -12,7 +12,6 @@ namespace InGame.Player
         float _bounceIntervalSec = 0f;
 
         Rigidbody2D _rb2;
-        JSExecutor _jsExecutor;
         IJump _jumpController;
         IJumpAnim _jumpAnim;
         float _prevBouceTimeSec;
@@ -21,13 +20,12 @@ namespace InGame.Player
         void Start()
         {
             _rb2 = GetComponent<Rigidbody2D>();
-            _jsExecutor = new JSExecutor();
             _jumpController = gameObject.GetComponent<IJump>();
             _jumpAnim = gameObject.GetComponent<IJumpAnim>();
 
             this.UpdateAsObservable()
                 .Where(_ => Input.touchCount > 0 || Input.GetMouseButtonDown(0))
-                .Where(_ => _jsExecutor.IsTimingCorrectFromJS())
+                .Where(_ => JSExecutor.IsTimingCorrectFromJS())
                 .Subscribe(_ =>
                 {
                     _jumpController.Jump();
@@ -51,7 +49,7 @@ namespace InGame.Player
         {
             if (isBounce)
             {
-                float nextInterval = _jsExecutor.GetNextBeatFromJS();
+                float nextInterval = JSExecutor.GetNextBeatFromJS();
                 SetBounceInterval(nextInterval / 1000f); // msから秒に変換
             }
             else
