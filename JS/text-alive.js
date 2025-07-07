@@ -70,6 +70,12 @@ player.addListener({
       return a.segments[0].startTime - b.segments[0].startTime;
     });
     console.log("セグメント情報", segments);
+
+    gameInstance.SendMessage(
+      "JSMessageReceiver",
+      "GetWordsCount",
+      player.video.wordCount
+    );
   },
 
   onTimeUpdate: (pos) => {
@@ -93,17 +99,11 @@ player.addListener({
       gameInstance.SendMessage("JSMessageReceiver", "OnSegmentChange");
     }
     // }
-  },
-});
 
-document.querySelector("#play-button").addEventListener("click", () => {
-  if (player.isPlaying) {
-    player.requestPause();
-    gameInstance.SendMessage("JSMessageReceiver", "OnPause");
-  } else {
-    player.requestPlay();
-    gameInstance.SendMessage("JSMessageReceiver", "OnPlay");
-  }
+    if (pos === player.video.duration) {
+      gameInstance.SendMessage("JSMessageReceiver", "OnMusicEnd");
+    }
+  },
 });
 
 function getNextBeat() {

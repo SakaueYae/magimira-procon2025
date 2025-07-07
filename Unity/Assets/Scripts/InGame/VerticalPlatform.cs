@@ -19,6 +19,7 @@ namespace InGame
 
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButtonDown(0)) // マウスの左ボタンが押されたとき
+                .Where(_ => Time.timeScale > 0)
                 .Subscribe(_ =>
                 {
                     _startPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);

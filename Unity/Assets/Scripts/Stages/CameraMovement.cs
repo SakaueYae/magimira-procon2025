@@ -12,6 +12,7 @@ namespace Stages
         void Start()
         {
             this.UpdateAsObservable()
+                .Where(_ => Time.timeScale > 0)
                 .Subscribe(_ =>
                 {
                     transform.position += new Vector3(_moveSpeed * Time.deltaTime, 0, 0);

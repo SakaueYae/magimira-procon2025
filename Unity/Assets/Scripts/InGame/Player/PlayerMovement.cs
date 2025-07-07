@@ -23,6 +23,7 @@ namespace InGame.Player
         {
             _rb2 = GetComponent<Rigidbody2D>();
             this.UpdateAsObservable()
+            .Where(_ => Time.timeScale > 0)
             .Subscribe(_ => Move())
             .AddTo(this);
         }

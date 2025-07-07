@@ -29,6 +29,7 @@ namespace InGame
         void Start()
         {
             this.UpdateAsObservable()
+            .Where(_ => Time.timeScale > 0)
             .Subscribe(_ =>
             {
                 // テキストを左方向に移動

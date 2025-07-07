@@ -27,9 +27,6 @@
       </div>
 
       <div id="media" style="display: none"></div>
-      <div>
-        <button id="play-button" class="disabled">Play</button>
-      </div>
 
       <div id="unity-warning"></div>
       <!-- <div id="unity-footer">
@@ -134,9 +131,6 @@
           .then((unityInstance) => {
             gameInstance = unityInstance;
             document.querySelector("#unity-loading-bar").style.display = "none";
-            document.querySelector("#unity-fullscreen-button").onclick = () => {
-              unityInstance.SetFullscreen(1);
-            };
           })
           .catch((message) => {
             alert(message);

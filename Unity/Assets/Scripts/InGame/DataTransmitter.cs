@@ -3,6 +3,8 @@ using R3;
 using WebGLBridge;
 using InGame.UI;
 using Stages;
+using InGame.Scores;
+using UnityEngine.SceneManagement;
 
 namespace InGame
 {
@@ -39,11 +41,23 @@ namespace InGame
                 })
                 .AddTo(this);
 
+            _jsMessageReceiver.WordsCount
+                .Subscribe(count =>
+                {
+                    ScoreData.instance.SetMaxScore(count);
+                })
+                .AddTo(this);
+
+
             _jsMessageReceiver.OnSegmentChangeStream()
                 .Subscribe(_ =>
                 {
                     _stagePresenter.SwitchToRandomState();
                 })
+                .AddTo(this);
+
+            _jsMessageReceiver.OnMusicEndStream()
+                .Subscribe(_ => SceneManager.LoadScene("ResultScene"))
                 .AddTo(this);
         }
     }

@@ -25,7 +25,7 @@ namespace WebGLBridge
         ReactiveProperty<bool> _isPlaying = new ReactiveProperty<bool>();
         public ReadOnlyReactiveProperty<bool> IsPlaying => _isPlaying;
 
-        // Wordsのカウントを保持(未実装)
+        // Wordsのカウントを保持
         ReactiveProperty<int> _wordsCount = new ReactiveProperty<int>();
         public ReadOnlyReactiveProperty<int> WordsCount => _wordsCount;
 
@@ -33,10 +33,12 @@ namespace WebGLBridge
         Subject<Unit> _onSegmentChangeStream = new Subject<Unit>();
         public Observable<Unit> OnSegmentChangeStream() => _onSegmentChangeStream;
 
-        // Test
+        Subject<Unit> _onMusicEndStream = new Subject<Unit>();
+        public Observable<Unit> OnMusicEndStream() => _onMusicEndStream;
+
+        // 開発環境上でのテスト
         void Start()
         {
-            // Simulate receiving words every 2 seconds
 #if UNITY_EDITOR
             UniTask.Void(async () =>
             {
@@ -93,14 +95,19 @@ namespace WebGLBridge
             _isPlaying.Value = false;
         }
 
-        public void GetWordsCount(string word)
+        public void GetWordsCount(int count)
         {
-            _wordsCount.Value = int.TryParse(word, NumberStyles.Integer, CultureInfo.InvariantCulture, out var count) ? count : 0;
+            _wordsCount.Value = count;
         }
 
         public void OnSegmentChange()
         {
             _onSegmentChangeStream.OnNext(Unit.Default);
+        }
+
+        public void OnMusicEnd()
+        {
+            _onMusicEndStream.OnNext(Unit.Default);
         }
     }
 }
