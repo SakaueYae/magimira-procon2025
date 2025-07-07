@@ -27,9 +27,6 @@ let prevSegment = null;
 
 player.addListener({
   onAppReady: (app) => {
-    //  if (app.managed) {
-    //   document.querySelector("#control").className = "disabled";
-    // }
     if (!app.songUrl) {
       document.querySelector("#media").className = "disabled";
 

@@ -14,8 +14,9 @@ namespace Result
             _image = GetComponent<Image>();
             int score = ScoreData.instance.Score.CurrentValue;
             int maxScore = ScoreData.instance.MaxScore;
+            float percent = (float)score / maxScore;
 
-            _image.DOFillAmount(0.5f, 1f)
+            _image.DOFillAmount(percent, 1f)
                 .SetEase(Ease.InOutSine)
                 .OnComplete(() => Debug.Log("Fill complete!"));
         }

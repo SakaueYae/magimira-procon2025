@@ -19,7 +19,7 @@ namespace InGame
 
             Vector3 currentPos = gameObject.transform.position;
             Vector3 viewportPos = Camera.main.WorldToViewportPoint(currentPos);
-            float y = Random.value;
+            float y = Random.Range(0.2f, 1.0f);
             Quaternion rotation = Quaternion.Euler(0, 0, 0);
 
             if (y < 0.5f)
