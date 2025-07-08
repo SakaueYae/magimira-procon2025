@@ -94,8 +94,6 @@ player.addListener({
     }
     // }
 
-    console.log("現在の時間", pos);
-
     // 楽曲終了判定（許容誤差を設ける）
     const TOLERANCE_MS = 100; // 100ms の許容誤差
     if (Math.abs(pos - player.video.duration) <= TOLERANCE_MS) {
