@@ -13,6 +13,8 @@ namespace WebGLBridge
         private static extern void PauseMusic();
         [DllImport("__Internal")]
         private static extern void PlayMusic();
+        [DllImport("__Internal")]
+        private static extern void PlayMusicFromStart();
 
         /// <summary>
         /// Calls the JavaScript function to get the next beat.
@@ -57,6 +59,14 @@ namespace WebGLBridge
             if (Application.platform == RuntimePlatform.WebGLPlayer)
             {
                 PlayMusic();
+            }
+        }
+
+        public static void PlayMusicFromStartFromJS()
+        {
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                PlayMusicFromStart();
             }
         }
     }
