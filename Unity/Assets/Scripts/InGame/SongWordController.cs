@@ -70,8 +70,7 @@ namespace InGame
 
         public void GetWord()
         {
-            // TODO: 取得時のアニメーション、オブジェクトの削除
-            Destroy(gameObject);
+            gameObject.GetComponent<SongWordGetAnim>().PlayWordGetAnim();
         }
     }
 }
