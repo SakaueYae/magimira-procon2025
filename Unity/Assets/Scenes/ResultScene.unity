@@ -676,9 +676,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.049217
+    y: 0.0509915
     width: 1
-    height: 0.8997483
+    height: 0.9003187
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -2099,6 +2099,10 @@ PrefabInstance:
     - target: {fileID: 3908857177079590149, guid: 287ad7333bd194d06929c18d968a5812, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -2.2593994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717078979805847541, guid: 287ad7333bd194d06929c18d968a5812, type: 3}
+      propertyPath: m_text
+      value: Retry game
       objectReference: {fileID: 0}
     - target: {fileID: 4717078979805847541, guid: 287ad7333bd194d06929c18d968a5812, type: 3}
       propertyPath: m_fontStyle
