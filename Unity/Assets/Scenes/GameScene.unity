@@ -807,8 +807,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0480cba078b7d4af5afc65a324ea1101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveForce: 2
-  _maxSpeedX: 2
+  _moveForce: 6
+  _maxSpeedX: 4
   _maxSpeedY: 10
   _jumpSpeed: 10
   _pressHoldTime: 0.5
