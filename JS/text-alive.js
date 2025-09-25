@@ -68,11 +68,8 @@ player.addListener({
     });
     console.log("セグメント情報", segments);
 
-    gameInstance.SendMessage(
-      "JSMessageReceiver",
-      "GetWordsCount",
-      player.video.wordCount
-    );
+    // ゲーム起動時初回の単語数カウント
+    getWordsCount();
   },
 
   onTimeUpdate: (pos) => {
@@ -97,7 +94,9 @@ player.addListener({
     }
     // }
 
-    if (pos === player.video.duration) {
+    // 楽曲終了判定（許容誤差を設ける）
+    const TOLERANCE_MS = 100; // 100ms の許容誤差
+    if (Math.abs(pos - player.video.duration) <= TOLERANCE_MS) {
       gameInstance.SendMessage("JSMessageReceiver", "OnMusicEnd");
     }
   },
@@ -154,5 +153,14 @@ function isTimingCorrect() {
   return (
     Math.abs(beat.endTime - pos) < RAG_MS ||
     Math.abs(beat.startTime - pos) < RAG_MS
+  );
+}
+
+// Retry時にUnityから呼び出される
+function getWordsCount() {
+  gameInstance.SendMessage(
+    "JSMessageReceiver",
+    "GetWordsCount",
+    player.video.wordCount
   );
 }

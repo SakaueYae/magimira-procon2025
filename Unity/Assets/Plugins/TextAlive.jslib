@@ -15,4 +15,9 @@ mergeInto(LibraryManager.library, {
   PlayMusic: function () {
     player.requestPlay();
   },
+
+  PlayMusicFromStart: function () {
+    player.requestMediaSeek(0);
+    getWordsCount();
+  },
 });
