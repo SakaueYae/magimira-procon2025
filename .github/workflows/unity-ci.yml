@@ -7,10 +7,6 @@ jobs:
     name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
-      # Move directory
-      - name: Move to project directory
-        run: cd Unity
-        
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,10 +16,10 @@ jobs:
       # Cache
       - uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: Unity/Library
+          key: Library-Unity-${{ hashFiles('Unity/Assets/**', 'Unity/Packages/**', 'Unity/ProjectSettings/**') }}
           restore-keys: |
-            Library-
+            Library-Unity-
 
       # Test
       - name: Run tests
@@ -33,6 +29,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: Unity
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       # Build
@@ -43,7 +40,16 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: Unity
           targetPlatform: WebGL
+
+      # Replace index.html
+      - name: Replace index.html with custom one
+        run: cp JS/index.html build/WebGL/index.html
+
+      # Create text-alive.js
+      - name: Create text-alive.js
+        run: cp JS/text-alive.js build/WebGL/text-alive.js
 
       # Output
       - uses: actions/upload-artifact@v4
