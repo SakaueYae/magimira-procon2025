@@ -3,3 +3,7 @@
 **/.DS_Store
 ._.DS_Store
 .AppleDouble
+
+# Ignore temporaries from GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/
