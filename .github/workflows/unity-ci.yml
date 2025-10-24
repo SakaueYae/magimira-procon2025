@@ -54,8 +54,8 @@ jobs:
       - name: Ensure build/WebGL directory is writable
         run: |
           mkdir -p build/WebGL
-          chmod -R 777 build/WebGL
-          
+          sudo chmod -R 777 build/WebGL/*
+
       # Replace index.html
       - name: Replace index.html with custom one
         run: cp JS/index.html build/WebGL/index.html
