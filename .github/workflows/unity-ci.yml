@@ -51,17 +51,17 @@ jobs:
           projectPath: Unity
           targetPlatform: WebGL
           buildName: Builds
-        
-      - name: Ensure build/Builds directory is writable
-        run: sudo chmod -R 777 build/Builds
+
+      - name: Ensure build/WebGL directory is writable
+        run: sudo chmod -R 777 build/WebGL
 
       # Replace index.html
       - name: Replace index.html with custom one
-        run: cp JS/index.html build/Builds/index.html
+        run: cp JS/index.html build/WebGL/Builds/index.html
 
       # Create text-alive.js
       - name: Create text-alive.js
-        run: cp JS/text-alive.js build/Builds/text-alive.js
+        run: cp JS/text-alive.js build/WebGL/Builds/text-alive.js
 
       # Builder で出力した WebGL ビルドを GitHub Pages にデプロイする
       - name: Deploy to GitHub Pages
