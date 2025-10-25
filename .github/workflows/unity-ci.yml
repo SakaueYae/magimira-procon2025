@@ -52,9 +52,7 @@ jobs:
           targetPlatform: WebGL
         
       - name: Ensure build/WebGL directory is writable
-        run: |
-          mkdir -p build/WebGL
-          sudo chmod -R 777 build/WebGL/*
+        run: sudo chmod -R 777 build/WebGL
 
       # Replace index.html
       - name: Replace index.html with custom one
